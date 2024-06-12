@@ -23,6 +23,15 @@
     "arrow-body-style": ["off", "always"],
     "default-param-last": "off",
     "no-undef": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "no-alert": "off",
+    "no-restricted-globals": "off"
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "module": true,
+    "es2021": true,
+    "node": true
   }
 }
