@@ -16,7 +16,7 @@ export const login = async (email, password) => {
       showAlert('success', 'Logged in successfully');
       window.setTimeout(() => {
         location.assign('/');
-      }, 1000);
+      }, 500);
     }
   } catch (error) {
     showAlert('error', error.response.data.message); // axios error response
@@ -30,7 +30,9 @@ export const logout = async () => {
       url: 'http://127.0.0.1:4000/api/v1/users/logout',
     });
 
-    if (res.data.success === 'success') location.reload(true);
+    if (res.data.status === 'success') {
+      location.reload(true);
+    } // 'true' reloads the page from the server and not from the browser cache
   } catch (error) {
     showAlert('error', 'Error logging out: Try again.');
   }
