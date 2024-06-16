@@ -67,7 +67,7 @@ module.exports = class Email {
       if (error) {
         console.log(error);
       } else {
-        console.log('Server is ready to take our messages');
+        console.log('SMTP server is ready to take our messages');
       }
     });
 

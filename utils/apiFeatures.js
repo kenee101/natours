@@ -36,7 +36,7 @@ class APIFeatures {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.replaceAll(',', ' ');
       this.query = this.query.select(fields);
-      console.log(fields);
+      // console.log(fields);
       // select('name duration price')
     } else {
       this.query = this.query.select('-__v'); // EXCLUDING FIELD

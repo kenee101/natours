@@ -36,6 +36,7 @@ const sendErrorDev = (err, res, req) => {
     });
   } else {
     // RENDERED WEBSITE
+    console.log('ERROR 💥', err);
     res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: err.message,
@@ -55,6 +56,7 @@ const sendErrorProd = (err, res, req) => {
 
       // Programming or other unknown error: don't leak error details
     } else {
+      console.log('ERROR 💥', err);
       // 2) Send generic message
       res.status(500).json({
         status: 'error',
@@ -72,6 +74,7 @@ const sendErrorProd = (err, res, req) => {
 
       // Programming or other unknown error: don't leak error details
     } else {
+      console.log('ERROR 💥', err);
       res.status(err.statusCode).render('error', {
         title: 'Something went wrong!',
         msg: 'Please try again later.',
