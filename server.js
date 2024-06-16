@@ -33,3 +33,11 @@ process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
   server.close(() => process.exit(1));
 });
+
+// Handle SIGTERM signal
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
+});

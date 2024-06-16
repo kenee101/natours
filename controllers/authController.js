@@ -12,17 +12,16 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res, message) => {
+const createSendToken = (user, statusCode, res, req, message) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 3600 * 1000,
     ),
-    // secure: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
     httpOnly: true,
   };
 
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
 
   // Remove the password from the output in POSTMAN
@@ -43,7 +42,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, res, req);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -62,7 +61,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything is ok, send the jwt to the client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, res, req);
 });
 
 exports.logout = (req, res) => {
@@ -186,7 +185,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     // });
     await new Email(user, resetURL).sendPasswordReset();
 
-    createSendToken(user, 200, res, 'Token sent to the mail');
+    createSendToken(user, 200, res, req, 'Token sent to the mail');
   } catch (error) {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
@@ -223,7 +222,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 3) Update the passwordChangedAt property for the user in the userSchema method
   // 4) Log the user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, res, req);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -242,5 +241,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // User.findByIdAndUpdate will NOT work as intended!
 
   // 4) Log in the user, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, res, req);
 });
