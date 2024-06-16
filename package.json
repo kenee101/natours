@@ -7,8 +7,6 @@
     "dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
-    "dev:webpack": "webpack serve",
-    "build": "webpack",
     "build:parcel": "parcel build ./src/js/index.js"
   },
   "targets": {
