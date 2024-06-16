@@ -20,7 +20,7 @@ module.exports = class Email {
         port: 587,
         // secure: false, // upgrade later with STARTTLS
         auth: {
-          user: process.env.USER,
+          user: process.env.BREVO_LOGIN,
           pass: process.env.BREVO_SMTP_KEY,
         },
       });
