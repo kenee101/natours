@@ -4,12 +4,19 @@ const Booking = require('../models/bookingModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking')
+    res.locals.alert =
+      "Your booking was successful!. Please check your email for a confirmation. If your booking doesn't show up here immediately, please come back later.";
+  next();
+};
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
   const tours = await Tour.find();
 
   // 2) Build the template in the pug
-
   // 3) Render the template using the tour data
   res.status(200).render('overview', {
     title: 'All Tours',
@@ -27,9 +34,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (!tour) return next(new AppError('There is no tour with that name', 404));
 
   // 2) Build the template in the pug
-
   // 3) Render the template using the provided data
-
   res.status(200).render('tour', {
     title: `${tour.name} tour`,
     tour,
