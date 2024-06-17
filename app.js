@@ -17,7 +17,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 
@@ -59,6 +59,13 @@ const limiter = rateLimit({
 }); // 100 requests per 1 hour on the same IP address
 
 app.use('/api', limiter);
+
+// Stripe send  s a post request containing some headers and a body string
+app.post(
+  '/webhook-checkout',
+  express.json({ type: 'application/json' }),
+  bookingController.webhookCheckout,
+);
 
 // Body parser, reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
