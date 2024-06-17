@@ -23,8 +23,8 @@ const bookingController = require('./controllers/bookingController');
 const app = express();
 
 // app.enable('trust proxy');
-app.set('trust proxy', 1);
-app.get('/ip', (req, res) => res.json({ ip: req.ip }));
+app.set('trust proxy', 3);
+// app.get('/ip', (req, res) => res.json({ ip: req.ip }));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/src/views'));
