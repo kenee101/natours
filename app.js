@@ -61,10 +61,10 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-// Stripe send  s a post request containing some headers and a body string
+// Stripe sends a post request containing some headers and a body which should be coverted to string
 app.post(
   '/webhook-checkout',
-  express.json({ type: 'application/json' }),
+  express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout,
 );
 
